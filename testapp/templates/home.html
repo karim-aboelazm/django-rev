@@ -1,3 +1,7 @@
 Home
 <br>
 <a href="{% url 'test:logout' %}">Logout</a>
+<br>
+<a href="{% url 'test:change_password' request.user.id %}">change password</a>
+<br>
+<a href="{% url 'test:client_profile' %}">Go to your Profile</a>

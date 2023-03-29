@@ -1,0 +1,91 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en">
+</body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Site</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <section class="py-5">
+            <div class="container ">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-md-9">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body ">
+                                <div class="d-flex text-black">
+                                    <div class="m-5">
+                                        <img src="{% if cprofile.image %}{{cprofile.image.url}}{% else %}{% static 'du.png' %}{% endif %}" alt="Generic placeholder image" class="img-fluid mt-5" style="width: 180px; border-radius: 10px;">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-1 text-center">{{cprofile.full_name}}</h5>
+                                        <p class="mb-2 pb-1 text-center" style="color: #2b2a2a;">client</p>
+                                        <div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef;">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <p>Username</p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p>{{request.user.username}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <p>Full name</p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p>{{cprofile.full_name}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <p>Email</p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p>{{request.user.email}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <p>Phone Number</p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p>{% if cprofile.phone %}{{cprofile.phone}}{% else %}+2010000000000{% endif %}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <p>Join At</p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p>{{cprofile.join_on|timesince}} ago</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex pt-1">
+                                            <a href="{% url 'testapp:update_profile' cprofile.id %}" type="button" class="btn btn-primary mx-2 flex-grow-1">Update Profile</a>
+                                            <a href="{% url 'testapp:home'%}" type="button" class="btn btn-primary flex-grow-1">Go Home</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+</html>

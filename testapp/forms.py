@@ -77,3 +77,8 @@ class PasswordResetForm(forms.Form):
         if newpassword != confirmnewpassword:
             raise forms.ValidationError('Passwords Not Match. Try Agin..')
         return confirmnewpassword
+    
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Clients
+        fields = ['full_name','address','image','phone']

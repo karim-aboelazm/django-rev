@@ -2,13 +2,15 @@ from django.shortcuts import render,redirect
 from django.urls import reverse
 from .models import *
 from .forms import *
-from django.views.generic import CreateView,FormView,TemplateView
+from django.views.generic import CreateView,FormView,TemplateView,UpdateView
 from django.views import View
 from django.contrib.auth.models import User
 from django.contrib.auth import login,logout,authenticate
 from .utils import password_reset_token
 from django.core.mail import send_mail
 from django.conf import settings
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.views import PasswordChangeView
 class HomePageView(TemplateView):
     template_name = "home.html"
 
@@ -31,13 +33,11 @@ class ClientRegisterationView(CreateView):
         form.instance.user = user
         login(self.request,user)
         return super().form_valid(form)
-    
-    
+       
 class ClientLogoutView(View):
     def get(self,request):
         logout(request)
         return redirect('test:login')
-
 
 class ClientLoginView(FormView):
     template_name = 'clients/login.html'
@@ -59,7 +59,6 @@ class ClientLoginView(FormView):
             return next_url
         else:
             return self.success_url
-
 
 class ForgetPasswordView(FormView):
     template_name = 'clients/forgot_password.html'
@@ -105,3 +104,28 @@ class ResetPasswordView(FormView):
         user.set_password(password)
         user.save()
         return super().form_valid(form)
+
+class ChangePasswordView(PasswordChangeView):
+    template_name = "clients/change_password.html"
+    success_url = '/home/'
+    
+class ClinetProfileView(TemplateView):
+    template_name = 'clients/profile.html'
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.clients:
+            pass
+        else:
+            return redirect("/login/?next=/profile/")
+        return super().dispatch(request, *args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["cprofile"] = Clients.objects.get(user=self.request.user)
+        return context
+
+class UpdateClientProfileView(UpdateView):
+    model = Clients
+    form_class = ProfileUpdateForm
+    template_name = "clients/update_profile.html"
+    success_url = "/profile/"
+    
+    
